@@ -1,0 +1,21 @@
+InitUser
+1. Construct userdata object. 
+2. Generate DS Keys AND PKE Keys.
+3. Store public keys (step2) into keystore.
+4. Generate SYMMETRIC encryption key from (secure) password. Convert UD to bytes, encrypt. 
+5. Sign encrypted UD with DSSign, and append to end.
+6. Store userdata under SYMMETRIC KEY, since this is deterministic
+
+GetUser
+1. Re-create Symmetric Encryption Key (and thus Datastore Key) based on username + PW. 
+2. Verify Integrity of Userdata object, using verify key from keystore. 
+3. Verify password (possibly repetitive) by recreating salted secure pw and checking. 
+4. After checks pass, decrypt user data. 
+5. Unmarshal user data, return to userdataptr.
+
+StoreFile
+1. Create File Metadata object.
+2. Encrypt and Sign FILE DATA object, using the designated file symmetric key and MAC key
+3. Store filedata under UUID (also part of file metadata).
+4. Assign file metadata specific encryption/MAC keys!
+5. 
